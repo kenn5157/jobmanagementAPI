@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Applicatoin", "Applicatoin\Applicatoin.csproj", "{CBDF756B-326C-471A-B9CF-EAE937F833E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{CBDF756B-326C-471A-B9CF-EAE937F833E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{C8BAF8C3-FB9F-44C7-9A9C-3DA37EFE5B4C}"
 EndProject
