@@ -1,14 +1,15 @@
 pipeline {
     agent any
     triggers {
-        pollSCM('1 * * * *')
+        //pollSCM('1 * * * *')
         //cron('10 * * * *')
     }
     stages {
         stage('Setup') {
             steps {
-                dir("Backend/Test"){
-                    sh "rm -rf TestResults"
+                dir("Test"){
+                    //sh "rm -rf TestResults"
+                    echo "setup stage"
                 }
             }
         }
@@ -28,12 +29,17 @@ pipeline {
             }
             post {
                 success{
-                    sh "ls -R Test/TestResults"
                     archiveArtifacts "Test/TestResults/*/coverage.cobertura.xml"
                     publishCoverage adapters: [istanbulCoberturaAdapter(path: "Test/TestResults/*/coverage.cobertura.xml", thresholds:
                     [[failUnhealthy: true, thresholdTarget: 'Conditional', unhealthyThreshold: 80.0, unstableThreshold: 50.0]])], checksName: '',
                     sourceFileResolver: sourceFiles('NEVER_STORE')
                 }
+            }
+        }
+        stage('publish') {
+            steps {
+                sh "docker build -t 'webapi:dockerfile' ."
+                sh "docker compose up -d"
             }
         }
         
