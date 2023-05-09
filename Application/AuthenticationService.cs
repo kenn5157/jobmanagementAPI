@@ -40,22 +40,11 @@ public class AuthenticationService : IAuthenticationService
         throw new NullReferenceException();
     }
 
-    public AuthenticationService(IUserRepository repository, UserValidator userValidator)
-    {
-        if (repository == null)
-        {
-            throw new NullReferenceException();
-        }
-        
-    }
-
-    public AuthenticationService(IUserRepository userRepositoryObject)
-    {
-        throw new NullReferenceException();
-    }
-
     public string Register(LoginAndRegisterDTO dto)
     {
+        if(dto == null){
+            throw new NullReferenceException("Hello");
+        }
         try
         {
             _repository.GetUserByEmail(dto.Email);
