@@ -27,6 +27,20 @@ public class AuthenticationService : IAuthenticationService
 
     }
 
+    public AuthenticationService(IUserRepository repository, UserValidator userValidator)
+    {
+        if (repository == null)
+        {
+            throw new NullReferenceException();
+        }
+        
+    }
+
+    public AuthenticationService(IUserRepository userRepositoryObject)
+    {
+        throw new NullReferenceException();
+    }
+
     public string Register(LoginAndRegisterDTO dto)
     {
         try
@@ -73,6 +87,7 @@ public class AuthenticationService : IAuthenticationService
 
         throw new Exception("Invalid login");
     }
-    
+
+   
 }
     
