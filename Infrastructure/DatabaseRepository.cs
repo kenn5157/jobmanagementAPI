@@ -14,7 +14,6 @@ public class DatabaseRepository : IDatabaseRepository
 
     public void buildDB()
     {
-        _dbContext.Database.EnsureDeleted();
         _dbContext.Database.EnsureCreated();
     }
 }
