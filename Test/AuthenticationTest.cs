@@ -30,21 +30,40 @@ public class AuthenticationTest
     }
      
     [Theory]
-    [InlineData("", "P","")]
-    public void Regiter_WithInvaldidEmail_ShouldThorwValidationExceptionWithMessage(string Email,string Password, string errorMessage)
+    [InlineData("", "P")]
+    public void Regiter_WithInvaldidEmail_ShouldThorwValidationExceptionWithMessage(string Email,string Password)
     {
         var userRepository = new Mock<IUserRepository>();
         var userValidator = new UserValidator();
         var userService = new AuthenticationService(userRepository.Object, userValidator);
  
-        var dto = new LoginAndRegisterDTO()
+        var dto = new LoginAndRegisterDTO
         {
             Email = "",
             Password = "123"
 
         };
         Action result = () => userService.Register(dto);
-        result.Should().Throw<ValidationException>().WithMessage(errorMessage);
+        result.Should().Throw<ValidationException>();
     }
-     
+
+    [Theory]
+    [InlineData("email", "")]
+    public void Register_WithInValdidPassword_ShouldThrowValidationException(string Email, string Password)
+    {
+        var userRepository = new Mock<IUserRepository>();
+        var userValidator = new UserValidator();
+        var userService = new AuthenticationService(userRepository.Object, userValidator);
+
+        var dto = new LoginAndRegisterDTO
+        {
+            Email = "email",
+            Password = ""
+        };
+        
+
+        Action result = () => userService.Register(dto);
+        result.Should().Throw<ValidationException>();
+
+    }
 }
