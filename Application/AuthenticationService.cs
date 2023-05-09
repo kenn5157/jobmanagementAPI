@@ -26,6 +26,19 @@ public class AuthenticationService : IAuthenticationService
         _userValidator = userValidator;
 
     }
+    public AuthenticationService(IUserRepository repository, UserValidator userValidator)
+    {
+        if (repository == null)
+        {
+            throw new NullReferenceException();
+        }
+        
+    }
+
+    public AuthenticationService(IUserRepository userRepositoryObject)
+    {
+        throw new NullReferenceException();
+    }
 
     public string Register(LoginAndRegisterDTO dto)
     {
