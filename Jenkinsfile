@@ -39,6 +39,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "docker build -t 'jobman-api:testbuild' ."
+                sh "source /home/jenkins/envvars.sh"
                 sh "docker-compose -f /home/jenkins/docker-jobmanagement/jobmanagementapi/docker-compose.yml up -d"
             }
         }
