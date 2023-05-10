@@ -9,11 +9,7 @@ public class DatabaseContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TestClass>(entity =>
-        {
-            entity.HasKey(e => e.TestId);
-            entity.Property(e => e.TestName).IsRequired();
-        });
+      
         modelBuilder.Entity<Problem>(entity =>
             {
                 entity.HasKey(e => e.ProblemId);
@@ -21,9 +17,9 @@ public class DatabaseContext : DbContext
                 entity.Property(e => e.Location).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
                 entity.Property(e => e.Description).IsRequired();
+                entity.Property(e => e.Image).IsRequired();
             });
     }
-
-    public DbSet<TestClass> TestClassTable { get; set; }
+    
     public DbSet<Problem> ProblemTable { get; set; }
 }
