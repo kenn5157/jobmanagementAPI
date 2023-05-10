@@ -29,6 +29,22 @@ public class AuthenticationTest
          test.Should().Throw<NullReferenceException>();
      }
      
-    
+    [Theory]
+     [InlineData("check", "Poggers","")]
+     public void Regiter_WithInvaldidEmail_ShouldThorwValidationExceptionWithMessage(string email,string password, string errorMessage)
+     {
+         var userRepository = new Mock<IUserRepository>();
+         var userValidator = new UserValidator();
+         var userService = new AuthenticationService(userRepository.Object, userValidator);
+ 
+         LoginAndRegisterDTO dto = new LoginAndRegisterDTO()
+         {
+             Email = email,
+             Password = password
+
+         };
+         Action result = () => userService.Register(dto);
+         result.Should().Throw<ValidationException>().WithMessage(errorMessage);
+   }
      
 }

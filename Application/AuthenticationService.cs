@@ -42,9 +42,6 @@ public class AuthenticationService : IAuthenticationService
 
     public string Register(LoginAndRegisterDTO dto)
     {
-        if(dto == null){
-            throw new NullReferenceException("Hello");
-        }
         try
         {
             _repository.GetUserByEmail(dto.Email);
