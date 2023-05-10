@@ -297,8 +297,8 @@ public class ProblemServiceTests
 
     // Test for EditProblem with wrong Image
     [Theory]
-    [InlineData("", "Name cannot be empty.")]
-    [InlineData(null, "Name cannot be empty.")]
+    [InlineData("", "Image cannot be empty.")]
+    [InlineData(null, "Image cannot be empty.")]
     public void EditProblem_WithEmptyImage_ShouldReturnValidationExceptionWithMeaasge(string Image,
         string erroMessage)
     {
@@ -521,7 +521,8 @@ public class ProblemServiceTests
             ProblemName = "test problem",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "image"
         };
         var result = problemService.DeleteProblem(testProblem);
         result.Should().BeFalse();
