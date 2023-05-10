@@ -25,6 +25,8 @@ namespace Application.Helpers
             string[] data = { sqlIp, sqlPort, sqlDatabase, sqlUid, sqlPwd };
             string st = string.Format(connectionStringTemplate, data);
 
+            Console.WriteLine(st);
+
             return st;
         }
 
