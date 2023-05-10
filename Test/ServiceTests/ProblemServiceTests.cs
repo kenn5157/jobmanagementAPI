@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using Application;
 using Application.DTOs;
 using Application.Interfaces;
@@ -80,7 +81,8 @@ public class ProblemServiceTests
             ProblemName = problemName,
             Status = "Status",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         Action result = () => problemService.AddProblem(testProblem);
         result.Should().Throw<ValidationException>().WithMessage(errorMessage);
@@ -100,7 +102,8 @@ public class ProblemServiceTests
             ProblemName = "problemName",
             Status = status,
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         Action result = () => problemService.AddProblem(testProblem);
         result.Should().Throw<ValidationException>().WithMessage(errorMessage);
@@ -119,7 +122,8 @@ public class ProblemServiceTests
             ProblemName = "problemName",
             Status = "Status",
             Location = location,
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         Action result = () => problemService.AddProblem(testProblem);
         result.Should().Throw<ValidationException>().WithMessage(errorMessage);
@@ -138,12 +142,33 @@ public class ProblemServiceTests
             ProblemName = "problemName",
             Status = "Status",
             Location = "Location",
-            Description = Description
+            Description = Description,
+            Image = "image"
         };
         Action result = () => problemService.AddProblem(testProblem);
         result.Should().Throw<ValidationException>().WithMessage(errorMessage);
     }
     
+    // Test for AddProblem with wrong Image
+    [Theory]
+    [InlineData("", "Image cannot be empty.")]
+    public void AddProblem_WithInvaldidImage_ShouldThorwValidationExceptionWithMessage(string Image, string errorMessage)
+    {
+        var problemRepository = new Mock<IProblemRepository>();
+        var problemValidator = new ProblemValidator();
+        var problemService = new ProblemService(problemRepository.Object, problemValidator);
+
+        var testProblem = new AddProblemRequest
+        {
+            ProblemName = "problemName",
+            Status = "Status",
+            Location = "Location",
+            Description = "Description",
+            Image = Image
+        };
+        Action result = () => problemService.AddProblem(testProblem);
+        result.Should().Throw<ValidationException>().WithMessage(errorMessage);
+    }
     
     // Test for EditProblem to wrong id
     [Theory]
@@ -159,7 +184,8 @@ public class ProblemServiceTests
             ProblemName = "test",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "image"
         };
 
         var problemRepository = new Mock<IProblemRepository>();
@@ -175,6 +201,7 @@ public class ProblemServiceTests
     [Theory]
     [InlineData("", "Name cannot be empty.")]
     [InlineData(null, "Name cannot be empty.")]
+    
     public void EditProblem_WithEmptyName_ShouldReturnValidationExceptionWithMeaasge(string problemName,
         string erroMessage)
     {
@@ -184,7 +211,8 @@ public class ProblemServiceTests
             ProblemName = problemName,
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -207,7 +235,8 @@ public class ProblemServiceTests
             ProblemName = "ProblemName",
             Status = "Staus",
             Location = Location,
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -230,7 +259,8 @@ public class ProblemServiceTests
             ProblemName = "ProblemName",
             Status = status,
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -253,7 +283,8 @@ public class ProblemServiceTests
             ProblemName = "ProblemName",
             Status = "Staus",
             Location = "Location",
-            Description = description
+            Description = description,
+            Image = "Image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -264,6 +295,30 @@ public class ProblemServiceTests
         test.Should().Throw<ValidationException>().WithMessage(erroMessage);
     }
 
+    // Test for EditProblem with wrong Image
+    [Theory]
+    [InlineData("", "Name cannot be empty.")]
+    [InlineData(null, "Name cannot be empty.")]
+    public void EditProblem_WithEmptyImage_ShouldReturnValidationExceptionWithMeaasge(string Image,
+        string erroMessage)
+    {
+        var editProblem = new Problem
+        {
+            ProblemId = 1,
+            ProblemName = "ProblemName",
+            Status = "Staus",
+            Location = "Location",
+            Description = "Description",
+            Image = Image
+        };
+        var problemRepository = new Mock<IProblemRepository>();
+        var problemValidator = new ProblemValidator();
+        var problemService = new ProblemService(problemRepository.Object, problemValidator);
+
+        problemRepository.Setup(x => x.EditProblem(editProblem));
+        Action test = () => problemService.EditProblem(editProblem);
+        test.Should().Throw<ValidationException>().WithMessage(erroMessage);
+    }
 
     // Test of EditProblem should not return Problem as null
     [Fact]
@@ -275,7 +330,8 @@ public class ProblemServiceTests
             ProblemName = "test problem",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -298,7 +354,8 @@ public class ProblemServiceTests
             ProblemName = "Changed",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -335,7 +392,8 @@ public class ProblemServiceTests
             ProblemName = "Test",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -358,17 +416,19 @@ public class ProblemServiceTests
         {
             ProblemId = 1,
             ProblemName = "Unedited",
-            Description = "hul",
+            Status = "kritisk",
             Location = "vejen",
-            Status = "kritisk"
+            Description = "hul",
+            Image = "image"
         };
         var EditProblem = new Problem
         {
             ProblemId = 2,
             ProblemName = "Edited",
-            Description = "hul",
+            Status = "kritisk",
             Location = "vejen",
-            Status = "kritisk"
+            Description = "hul",
+            Image = "Image"
         };
         
         var problemRepository = new Mock<IProblemRepository>();
@@ -412,7 +472,8 @@ public class ProblemServiceTests
             ProblemName = "Test problem",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "image"
         };
         var result = problemService.DeleteProblem(testProblem);
         result.Should().BeTrue();
@@ -435,7 +496,8 @@ public class ProblemServiceTests
             ProblemName = "test problem",
             Status = "Staus",
             Location = "Location",
-            Description = "Description"
+            Description = "Description",
+            Image = "Image"
         };
         var result = problemService.DeleteProblem(testProblem);
         result.Should().BeFalse();
