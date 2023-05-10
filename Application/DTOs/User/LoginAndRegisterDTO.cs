@@ -1,4 +1,4 @@
-﻿namespace Applicatoin.DTOs.User;
+﻿namespace Application.DTOs.User;
 
 public class LoginAndRegisterDTO
 {

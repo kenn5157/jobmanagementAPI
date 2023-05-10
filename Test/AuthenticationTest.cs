@@ -1,7 +1,7 @@
 ﻿using System;
 using Application;
 using Application.Interfaces;
-using Applicatoin.DTOs.User;
+using Application.DTOs.User;
 using Domain;
 using FluentAssertions;
 using FluentValidation;
