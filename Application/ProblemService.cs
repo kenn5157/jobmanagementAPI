@@ -1,7 +1,7 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
 using Application.Validators;
-using Applicatoin.Helpers;
+using Application.Helpers;
 using Domain;
 using FluentValidation;
 

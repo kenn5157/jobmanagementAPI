@@ -1,7 +1,7 @@
 ﻿using Application.DTOs;
 using Domain;
 
-namespace Applicatoin.Helpers;
+namespace Application.Helpers;
 
 public class ObjectGeneator
 {
