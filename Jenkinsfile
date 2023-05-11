@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        pollSCM('1 * * * *')
+        //pollSCM('1 * * * *')
         //cron('10 * * * *')
     }
     stages {
@@ -34,6 +34,12 @@ pipeline {
                     [[failUnhealthy: true, thresholdTarget: 'Conditional', unhealthyThreshold: 80.0, unstableThreshold: 50.0]])], checksName: '',
                     sourceFileResolver: sourceFiles('NEVER_STORE')
                 }
+            }
+        }
+        stage('publish') {
+            steps {
+                sh "docker build -t 'webapi:dockerfile' ."
+                sh "docker compose up -d"
             }
         }
         
