@@ -8,7 +8,7 @@ pipeline {
         stage('Setup') {
             steps {
                 dir("Test"){
-                    sh "rm -rf TestResults"
+                    //sh "rm -rf TestResults"
                     echo "setup stage"
                 }
             }
