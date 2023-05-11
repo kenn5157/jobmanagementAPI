@@ -37,5 +37,4 @@ public class ProblemValidator : AbstractValidator<Problem>
             RuleFor(x => x.Image).Matches("^[a-zA-Z0-9 ]*$").WithMessage("Image may only contain alphanumeric characters.");
         });
     }
-
 }

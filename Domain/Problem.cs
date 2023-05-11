@@ -1,5 +1,4 @@
-﻿namespace Domain;
-
+﻿
 public class Problem
 {
     public int ProblemId { get; set; }
