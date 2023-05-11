@@ -42,6 +42,11 @@ pipeline {
                 // sh "docker-compose -f /home/jenkins/docker-jobmanagement/jobmanagementapi/docker-compose.yml up -d"
                 echo "deployment do work? no, but docker buld do"
         }
-        
+        stage('PerformanceTest'){
+            steps {
+                sh "k6 run script.js --vus 51 --duration 10s"
+               
+            }
+        }
     }
 }
