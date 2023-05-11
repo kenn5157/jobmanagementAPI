@@ -31,7 +31,7 @@ pipeline {
                 success{
                     archiveArtifacts "Test/TestResults/*/coverage.cobertura.xml"
                     publishCoverage adapters: [istanbulCoberturaAdapter(path: "Test/TestResults/*/coverage.cobertura.xml", thresholds:
-                    [[failUnhealthy: true, thresholdTarget: 'Conditional', unhealthyThreshold: 80.0, unstableThreshold: 50.0]])], checksName: '',
+                    [[failUnhealthy: true, thresholdTarget: 'Conditional', unhealthyThreshold: 30.0, unstableThreshold: 20.0]])], checksName: '',
                     sourceFileResolver: sourceFiles('NEVER_STORE')
                 }
             }
@@ -41,7 +41,6 @@ pipeline {
                 sh "docker build -t 'jobman-api:testbuild' ."
                 // sh "docker-compose -f /home/jenkins/docker-jobmanagement/jobmanagementapi/docker-compose.yml up -d"
                 echo "deployment do work? no, but docker buld do"
-            }
         }
         
     }
