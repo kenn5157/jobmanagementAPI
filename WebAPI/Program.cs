@@ -14,11 +14,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 string connectionString = constants.getConnectionString();
+string appSecret = constants.getSecret();
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySQL(connectionString));
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("Appsettings"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateAudience = false,
         ValidateIssuer = false,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("AppSettings:Secret")))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSecret))
     };
 });
 

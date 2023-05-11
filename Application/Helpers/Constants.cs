@@ -8,13 +8,15 @@ namespace Application.Helpers
 {
     public class Constants : IConstants
     {
-        public Constants()
-        {
+        public Constants() { }
 
+        public string getSecret() {
+            return Environment.GetEnvironmentVariable("API_SECRET");
         }
 
         public string getConnectionString()
         {
+            //TODO: Make this so it test if the variables are empty, as the api should not be started without em
             string sqlIp = this.getEnvironmentString("SQL_SERVER_IP");
             string sqlPort = this.getEnvironmentString("SQL_SERVER_PORT");
             string sqlDatabase = this.getEnvironmentString("SQL_DATABASE");
@@ -32,10 +34,13 @@ namespace Application.Helpers
 
         private string getEnvironmentString(string envVariable)
         {
-            try{
+            try
+            {
                 string st = Environment.GetEnvironmentVariable(envVariable);
                 return st;
-            } catch (System.Exception) {
+            }
+            catch (System.Exception)
+            {
 
                 throw;
             }

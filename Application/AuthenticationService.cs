@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data;
+﻿using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -10,29 +9,26 @@ using Application.Interfaces;
 using Applicatoin.Validators;
 using Domain;
 using FluentValidation;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace Application;
 
 public class AuthenticationService : IAuthenticationService
 {
-
-
+    private Constants constants;
     private readonly IUserRepository _repository;
     //private readonly IValidator<User> _userValidator;
     private readonly IValidator<Register> _registerValidator;
 
     public AuthenticationService(
-        IUserRepository repository, 
-        //UserValidator userValidator, 
+        IUserRepository repository,
         RegisterValidator registerValidator
         )
     {
         _repository = repository ?? throw new NullReferenceException("UserRepository is null");
         //_userValidator = userValidator ?? throw new NullReferenceException("UserValidator is null");
         _registerValidator = registerValidator ?? throw new NullReferenceException("RegisterValidator is null");
+        this.constants = new Constants();
 
     }
 
@@ -42,9 +38,9 @@ public class AuthenticationService : IAuthenticationService
         {
             throw new NullReferenceException("Register user object is null");
         }
-        
+
         Register registerDto = ObjectGeneator.RegisterDtoToRegister(dto);
-        
+
         var validation = _registerValidator.Validate(registerDto, options => options.IncludeRuleSets("Default"));
 
         if (!validation.IsValid)
@@ -58,34 +54,34 @@ public class AuthenticationService : IAuthenticationService
         }
         catch (Exception e)
         {
-            throw new DuplicateNameException("User already exist in DB");
-        }
+            string generatedSalt = RandomNumberGenerator.GetBytes(32).ToString();
+            var user = new User
+            {
+                email = dto.Email,
+                salt = generatedSalt,
+                hash = BCrypt.Net.BCrypt.HashPassword(dto.Password + generatedSalt)
+            };
+            try
+            {
+                _repository.CreateNewUser(user);
+                return "hello world";
+                //return GenerateToken(user);
+            }
+            catch (Exception g)
+            {
+                throw new Exception("Could not create new user in database. " + g.Message);
+            }
 
-        var _salt = RandomNumberGenerator.GetBytes(32).ToString();
-        var _user = new User
-        {
-            Email = dto.Email,
-            Salt = _salt,
-            Hash = BCrypt.Net.BCrypt.HashPassword(dto.Password + _salt)
-        };
-
-        try
-        {
-            _repository.CreateNewUser(_user);
-            return GenerateToken(_user);
         }
-        catch (Exception e)
-        {
-            throw new Exception("Could not create new user in database");
-        }
+        throw new DuplicateNameException("User already exist in DB.");
     }
 
     public string GenerateToken(User user)
     {
-        var key = Encoding.UTF8.GetBytes("654126");
+        var key = Encoding.UTF8.GetBytes(constants.getSecret());
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("email", user.Email) }),
+            Subject = new ClaimsIdentity(new[] { new Claim("email", user.email) }),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -97,7 +93,7 @@ public class AuthenticationService : IAuthenticationService
     public string Login(LoginAndRegisterDTO dto)
     {
         var user = _repository.GetUserByEmail(dto.Email);
-        if (BCrypt.Net.BCrypt.Verify(dto.Password + user.Salt, user.Hash))
+        if (BCrypt.Net.BCrypt.Verify(dto.Password + user.salt, user.hash))
         {
             return GenerateToken(user);
         }

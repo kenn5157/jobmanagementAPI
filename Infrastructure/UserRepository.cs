@@ -15,7 +15,7 @@ public class UserRepository: IUserRepository
 
     public User GetUserByEmail(string Email)
     {
-        return _dbContext.UserTable.FirstOrDefault(u => u.Email == Email) ??
+        return _dbContext.UserTable.FirstOrDefault(u => u.email == Email) ??
                throw new KeyNotFoundException("There was no user with email" + Email);
     }
 

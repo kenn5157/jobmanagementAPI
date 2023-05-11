@@ -10,11 +10,12 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>()
-            .Property(u => u.UserID)
+            .Property(u => u.userID)
             .ValueGeneratedOnAdd();
         modelBuilder.Entity<User>()
-            .HasIndex(u => u.Email)
+            .HasIndex(u => u.email)
             .IsUnique();
+            
         modelBuilder.Entity<Problem>(entity =>
             {
                 entity.HasKey(e => e.ProblemId);
