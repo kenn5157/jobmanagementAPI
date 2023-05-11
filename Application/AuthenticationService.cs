@@ -1,29 +1,34 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.Interfaces;
 using Application.DTOs.User;
 using Application.Helpers;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace Application;
 
 public class AuthenticationService : IAuthenticationService
 {
+    
+    
     private AppSettings _appSettings;
-    private IUserRepository _repository;
-    private IValidator<User> _userValidator;
+    private readonly IUserRepository _repository;
+    private readonly IValidator<User> _userValidator;
 
     public AuthenticationService(IUserRepository repository, IOptions<AppSettings> appSettings,
         UserValidator userValidator)
     {
-        _repository = repository;
+        _repository = repository ?? throw new NullReferenceException("UserRepository is null");
+        _userValidator = userValidator ?? throw new NullReferenceException("UserValidator is null");
         _appSettings = appSettings.Value;
-        _userValidator = userValidator;
+        
 
     }
     public AuthenticationService(IUserRepository repository, UserValidator userValidator)
@@ -42,6 +47,9 @@ public class AuthenticationService : IAuthenticationService
 
     public string Register(LoginAndRegisterDTO dto)
     {
+        if(dto == null){
+            throw new ValidationException("Email is null");
+        }
         try
         {
             _repository.GetUserByEmail(dto.Email);
