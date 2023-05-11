@@ -1,3 +1,4 @@
+
 using Application.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,8 +8,8 @@ public class DependencyResolver
 {
     public static void RegisterApplicationLayer(IServiceCollection service)
     {
-       
         service.AddScoped<IAuthenticationService, AuthenticationService>();
-        
+        service.AddScoped<IProblemService, ProblemService>();
+        service.AddScoped<ProblemValidator, ProblemValidator>();
     }
 }
