@@ -20,4 +20,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 COPY ["WebAPI/entrypoint.sh", "/bin/entrypoint.sh"]
+
 ENTRYPOINT ["entrypoint.sh"]
