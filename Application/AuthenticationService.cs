@@ -16,8 +16,8 @@ namespace Application;
 
 public class AuthenticationService : IAuthenticationService
 {
-    
-    
+
+
     private AppSettings _appSettings;
     private readonly IUserRepository _repository;
     private readonly IValidator<User> _userValidator;
@@ -28,7 +28,7 @@ public class AuthenticationService : IAuthenticationService
         _repository = repository ?? throw new NullReferenceException("UserRepository is null");
         _userValidator = userValidator ?? throw new NullReferenceException("UserValidator is null");
         _appSettings = appSettings.Value;
-        
+
 
     }
     public AuthenticationService(IUserRepository repository, UserValidator userValidator)
@@ -37,7 +37,7 @@ public class AuthenticationService : IAuthenticationService
         {
             throw new NullReferenceException();
         }
-        
+
     }
 
     public AuthenticationService(IUserRepository userRepositoryObject)
@@ -47,7 +47,8 @@ public class AuthenticationService : IAuthenticationService
 
     public string Register(LoginAndRegisterDTO dto)
     {
-        if(dto == null){
+        if (dto == null)
+        {
             throw new ValidationException("Email is null");
         }
         try
@@ -95,6 +96,6 @@ public class AuthenticationService : IAuthenticationService
         throw new Exception("Invalid login");
     }
 
-   
+
 }
-    
+

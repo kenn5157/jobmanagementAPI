@@ -10,6 +10,5 @@ public class DependencyResolver
     {
         service.AddScoped<IAuthenticationService, AuthenticationService>();
         service.AddScoped<IProblemService, ProblemService>();
-        service.AddScoped<ProblemValidator, ProblemValidator>();
     }
 }

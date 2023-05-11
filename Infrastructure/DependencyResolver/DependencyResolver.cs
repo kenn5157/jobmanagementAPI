@@ -10,6 +10,6 @@ public class DependencyResolver
     {
         service.AddScoped<IDatabaseRepository, DatabaseRepository>();
         service.AddScoped<IUserRepository, UserRepository>();
-
+        service.AddScoped<IProblemRepository, ProblemRepository>();
     }
 }
