@@ -36,11 +36,11 @@ pipeline {
                 }
             }
         }
-        stage('publish') {
+        stage('Deploy') {
             steps {
-                //sh "docker build -t 'webapi:dockerfile' ."
-                //sh "docker compose up -d"
-                echo 'yeet'
+                sh "docker build -t 'jobman-api:testbuild' ."
+                // sh "docker-compose -f /home/jenkins/docker-jobmanagement/jobmanagementapi/docker-compose.yml up -d"
+                echo "deployment do work? no, but docker buld do"
             }
         }
         

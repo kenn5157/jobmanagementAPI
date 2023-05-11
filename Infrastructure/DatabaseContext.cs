@@ -15,9 +15,21 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
-
+        modelBuilder.Entity<Problem>(entity =>
+            {
+                entity.HasKey(e => e.ProblemId);
+                entity.Property(e => e.ProblemName).IsRequired();
+                entity.Property(e => e.Location).IsRequired();
+                entity.Property(e => e.Status).IsRequired();
+                entity.Property(e => e.Description).IsRequired();
+                entity.Property(e => e.Image).IsRequired();
+            });
     }
 
-   
+
     public DbSet<User> UserTable { get; set; }
+    public DbSet<Problem> ProblemTable { get; set; }
+
+
+
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Applicatoin.Interfaces
+namespace Application.Interfaces
 {
     public interface IConstants
     {
