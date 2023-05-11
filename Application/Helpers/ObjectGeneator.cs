@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Application.DTOs.User;
 using Domain;
 
 namespace Application.Helpers;
@@ -16,6 +17,15 @@ public class ObjectGeneator
             Status = problem.Status,
             Description = problem.Description,
             Image = problem.Image
+        };
+    }
+
+    public static Register RegisterDtoToRegister(LoginAndRegisterDTO dto)
+    {
+        return new Register
+        {
+            Email = dto.Email,
+            Password = dto.Password
         };
     }
     

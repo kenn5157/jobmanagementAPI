@@ -1,5 +1,7 @@
 
 using Application.Interfaces;
+using Application.Validators;
+using Applicatoin.Validators;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.DependencyResolver;
@@ -10,5 +12,7 @@ public class DependencyResolver
     {
         service.AddScoped<IAuthenticationService, AuthenticationService>();
         service.AddScoped<IProblemService, ProblemService>();
+        service.AddScoped<ProblemValidator, ProblemValidator>();
+        service.AddScoped<RegisterValidator, RegisterValidator>();
     }
 }
