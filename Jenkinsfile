@@ -41,6 +41,7 @@ pipeline {
                 sh "docker build -t 'jobman-api:testbuild' ."
                 // sh "docker-compose -f /home/jenkins/docker-jobmanagement/jobmanagementapi/docker-compose.yml up -d"
                 echo "deployment do work? no, but docker buld do"
+            }
         }
         stage('PerformanceTest'){
             steps {
@@ -48,4 +49,5 @@ pipeline {
                
             }
         }
-    }}}
+    }
+}
