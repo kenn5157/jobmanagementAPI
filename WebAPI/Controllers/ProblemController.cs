@@ -47,4 +47,9 @@ public class ProblemController: ControllerBase
     {
         return _problemService.DeleteProblem(problem);
     }
+
+    [HttpGet]
+    public void problemNo(){
+        
+    }
 }
