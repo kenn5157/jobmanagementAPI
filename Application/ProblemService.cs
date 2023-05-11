@@ -19,15 +19,16 @@ public class ProblemService : IProblemService
         _problemRepository = problemRepository ?? throw new NullReferenceException("ProblemRepository is null");
         _problemValidator = problemValidator ?? throw new NullReferenceException("ProblemValidator is null");
     }
-    public List<Problem> GetAllProblems()
+    public ProblemResponse GetAllProblems()
     {
         List<Problem> problemList = _problemRepository.GetAllProblems();
         if (problemList == null)
         {
             throw new NullReferenceException("Unable to fetch problems form database.");
         }
+        var response = new ProblemResponse { Problems = problemList };
 
-        return problemList;
+        return response;
     }
 
   

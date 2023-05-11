@@ -6,29 +6,29 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("WebAPI/[controller]")]
-public class ProblemController: ControllerBase
+public class ProblemController : ControllerBase
 {
     private readonly IProblemService _problemService;
 
     public ProblemController(IProblemService problemService)
     {
         _problemService = problemService ?? throw new NullReferenceException("Faction Service can't be null");
-        
+
     }
 
     [HttpGet]
-    public List<Problem> GetAllProblems()
+    public IActionResult GetAllProblems()
     {
-        return _problemService.GetAllProblems();
-}
+        return Ok(_problemService.GetAllProblems());
+    }
 
     [HttpGet]
     [Route("{ProblemId}")]
-    public Problem GetById( int ProblemId)
+    public Problem GetById(int ProblemId)
     {
         return _problemService.GetById(ProblemId);
     }
-    
+
     [HttpPost]
     public Problem AddProblem([FromBody] AddProblemRequest dto)
     {
@@ -36,7 +36,7 @@ public class ProblemController: ControllerBase
     }
 
     [HttpPut]
-    public Problem EditProblem( Problem problem)
+    public Problem EditProblem(Problem problem)
     {
         return _problemService.EditProblem(problem);
     }
