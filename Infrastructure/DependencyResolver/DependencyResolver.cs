@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Infrastructure.Interface;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,5 +9,6 @@ public class DependencyResolver
     public static void RegisterInfrastructureLayer(IServiceCollection service)
     {
         service.AddScoped<IDatabaseRepository, DatabaseRepository>();
+        service.AddScoped<IProblemRepository, ProblemRepository>();
     }
 }
