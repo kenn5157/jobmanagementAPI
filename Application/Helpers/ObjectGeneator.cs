@@ -1,7 +1,7 @@
 ﻿using Application.DTOs;
 using Domain;
 
-namespace Applicatoin.Helpers;
+namespace Application.Helpers;
 
 public class ObjectGeneator
 {
@@ -14,7 +14,8 @@ public class ObjectGeneator
             ProblemName = problem.ProblemName,
             Location = problem.Location,
             Status = problem.Status,
-            Description = problem.Description
+            Description = problem.Description,
+            Image = problem.Image
         };
     }
     
