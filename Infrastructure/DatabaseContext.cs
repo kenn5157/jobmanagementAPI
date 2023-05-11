@@ -6,9 +6,16 @@ namespace Infrastructure;
 public class DatabaseContext : DbContext
 {
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>()
+            .Property(u => u.UserID)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
         modelBuilder.Entity<Problem>(entity =>
             {
                 entity.HasKey(e => e.ProblemId);
@@ -19,6 +26,7 @@ public class DatabaseContext : DbContext
                 entity.Property(e => e.Image).IsRequired();
             });
     }
-    
+
+    public DbSet<User> UserTable { get; set; }
     public DbSet<Problem> ProblemTable { get; set; }
 }
