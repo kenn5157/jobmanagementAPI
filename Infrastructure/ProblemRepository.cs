@@ -11,24 +11,24 @@ public class ProblemRepository: IProblemRepository
         _dbContext = dbContext ?? throw new NullReferenceException("DatabaseContext can not be null.");
     }
         
-    public List<Problem> GetAllProblems()
+    public List<ProblemDB> GetAllProblems()
     {
         return _dbContext.ProblemTable.ToList();
     }
 
-    public Problem GetById(int ProblemId)
+    public ProblemDB GetById(int ProblemId)
     {
         return _dbContext.ProblemTable.Find(ProblemId);
     }
 
-    public Problem AddProblem(Problem problem)
+    public ProblemDB AddProblem(ProblemDB problem)
     {
         _dbContext.ProblemTable.Add(problem);
         _dbContext.SaveChanges();
         return _dbContext.ProblemTable.Find(problem.ProblemId);
     }
 
-    public Problem? EditProblem(Problem problem)
+    public ProblemDB? EditProblem(ProblemDB problem)
     {
         _dbContext.ProblemTable.Update(problem);
         _dbContext.SaveChanges();
@@ -37,7 +37,7 @@ public class ProblemRepository: IProblemRepository
 
     public int DeleteProblem(int id)
     {
-        Problem problem = _dbContext.ProblemTable.Find(id);
+        ProblemDB problem = _dbContext.ProblemTable.Find(id);
         _dbContext.ProblemTable.Remove(problem);
         return _dbContext.SaveChanges();
     }

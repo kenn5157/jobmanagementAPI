@@ -17,6 +17,31 @@ namespace Test.ServiceTests;
 
 public class ProblemServiceTests
 {
+    private Problem problem = new Problem
+        {
+            ProblemId = 1,
+            ProblemName = "test",
+            Status = "Staus",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
+            Description = "Description",
+            Image = "image"
+        };
+
+    private AddProblemRequest addProblemRequest = new AddProblemRequest
+        {
+            ProblemName = "problemName",
+            Status = "Status",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
+            Description = "Description",
+            Image = "Image"
+        };
+
     // Test for ProblemService constructor
     [Fact]
     public void ProblemServiceWithNullProblemRepository_ShouldThrowNullReferenceExcptionWithMessage()
@@ -44,7 +69,7 @@ public class ProblemServiceTests
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.GetAllProblems()).Returns((List<Problem>)null);
+        problemRepository.Setup(x => x.GetAllProblems()).Returns((List<ProblemDB>)null);
 
         Action test = () => problemService.GetAllProblems();
 
@@ -80,7 +105,10 @@ public class ProblemServiceTests
         {
             ProblemName = problemName,
             Status = "Status",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = "Image"
         };
@@ -101,7 +129,10 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = status,
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = "Image"
         };
@@ -110,8 +141,8 @@ public class ProblemServiceTests
     }
     // Test for AddProblem with wrong Location
     [Theory]
-    [InlineData("", "Location cannot be empty.")]
-    public void AddProblem_WithInvaldidLocation_ShouldThorwValidationExceptionWithMessage(string location, string errorMessage)
+    [InlineData(null, "Location cannot be empty.")]
+    public void AddProblem_WithInvaldidLocation_ShouldThorwValidationExceptionWithMessage(Location location, string errorMessage)
     {
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -141,9 +172,12 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = "Status",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = Description,
-            Image = "image"
+            Image = "Image"
         };
         Action result = () => problemService.AddProblem(testProblem);
         result.Should().Throw<ValidationException>().WithMessage(errorMessage);
@@ -162,7 +196,10 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = "Status",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = Image
         };
@@ -183,7 +220,10 @@ public class ProblemServiceTests
             ProblemId = Id,
             ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = "image"
         };
@@ -192,7 +232,7 @@ public class ProblemServiceTests
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem));
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem)));
 
         Action test = () => problemService.EditProblem(editProblem);
         test.Should().Throw<ValidationException>().WithMessage("Id must be greater than 0.");
@@ -210,7 +250,10 @@ public class ProblemServiceTests
             ProblemId = 1,
             ProblemName = problemName,
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = "image"
         };
@@ -218,31 +261,30 @@ public class ProblemServiceTests
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem));
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem)));
         Action test = () => problemService.EditProblem(editProblem);
         test.Should().Throw<ValidationException>().WithMessage(erroMessage);
     }
     // Test for EditProblem with wrong location
     [Theory]
-    [InlineData("", "Name cannot be empty.")]
     [InlineData(null, "Name cannot be empty.")]
-    public void EditProblem_WithEmptyLocation_ShouldReturnValidationExceptionWithMeaasge(string Location,
+    public void EditProblem_WithEmptyLocation_ShouldReturnValidationExceptionWithMeaasge(Location location,
         string erroMessage)
     {
         var editProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "ProblemName",
+            ProblemName = "test",
             Status = "Staus",
-            Location = Location,
+            Location = location,
             Description = "Description",
-            Image = "Image"
+            Image = "image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem));
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem)));
         Action test = () => problemService.EditProblem(editProblem);
         test.Should().Throw<ValidationException>().WithMessage(erroMessage);
     }
@@ -256,17 +298,20 @@ public class ProblemServiceTests
         var editProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "ProblemName",
+            ProblemName = "test",
             Status = status,
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
-            Image = "Image"
+            Image = "image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem));
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem)));
         Action test = () => problemService.EditProblem(editProblem);
         test.Should().Throw<ValidationException>().WithMessage(erroMessage);
     }
@@ -280,17 +325,20 @@ public class ProblemServiceTests
         var editProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "ProblemName",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = description,
-            Image = "Image"
+            Image = "image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem));
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem)));
         Action test = () => problemService.EditProblem(editProblem);
         test.Should().Throw<ValidationException>().WithMessage(erroMessage);
     }
@@ -305,9 +353,12 @@ public class ProblemServiceTests
         var editProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "ProblemName",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = Image
         };
@@ -315,7 +366,7 @@ public class ProblemServiceTests
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem));
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem)));
         Action test = () => problemService.EditProblem(editProblem);
         test.Should().Throw<ValidationException>().WithMessage(erroMessage);
     }
@@ -326,18 +377,21 @@ public class ProblemServiceTests
     {
         var editProblem = new Problem
         {
-            ProblemId = 2,
-            ProblemName = "test problem",
+            ProblemId = 1,
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
-            Image = "Image"
+            Image = "image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem)).Returns(() =>
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem))).Returns(() =>
         {
             return null;
         });
@@ -351,17 +405,20 @@ public class ProblemServiceTests
         var editProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "Changed",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
-            Image = "Image"
-        };
+            Image = "image"
+        };;
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem)).Returns(() =>
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem))).Returns(() =>
         {
             return new Problem { ProblemId = editProblem.ProblemId, ProblemName = "Unchanged" };
         });
@@ -389,17 +446,20 @@ public class ProblemServiceTests
         var editProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "Test",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
-            Image = "Image"
+            Image = "image"
         };
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
         var problemService = new ProblemService(problemRepository.Object, problemValidator);
 
-        problemRepository.Setup(x => x.EditProblem(editProblem)).Returns(() =>
+        problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem))).Returns(() =>
         {
             return null;
         });
@@ -415,20 +475,26 @@ public class ProblemServiceTests
         var problem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "Unedited",
-            Status = "kritisk",
-            Location = "vejen",
-            Description = "hul",
+            ProblemName = "test",
+            Status = "Staus",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
+            Description = "Description",
             Image = "image"
         };
-        var EditProblem = new Problem
+        var editProblem = new Problem
         {
             ProblemId = 2,
-            ProblemName = "Edited",
-            Status = "kritisk",
-            Location = "vejen",
-            Description = "hul",
-            Image = "Image"
+            ProblemName = "test",
+            Status = "Staus",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
+            Description = "Description",
+            Image = "image"
         };
         
         var problemRepository = new Mock<IProblemRepository>();
@@ -438,17 +504,17 @@ public class ProblemServiceTests
         {
             var problemService = new ProblemService(problemRepository.Object,problemValidator);
 
-            problemRepository.Setup(x => x.EditProblem(EditProblem)).Returns(() =>
+            problemRepository.Setup(x => x.EditProblem(Problem.ConvertToProblemDB(editProblem))).Returns(() =>
             {
-                if (problem.ProblemId != EditProblem.ProblemId)
+                if (problem.ProblemId != editProblem.ProblemId)
                 {
                     return null;
                 }
 
-                problem.ProblemName = EditProblem.ProblemName;
+                problem.ProblemName = editProblem.ProblemName;
                 return problem;
             });
-            Action test = () => problemService.EditProblem(EditProblem);
+            Action test = () => problemService.EditProblem(editProblem);
             test.Should().Throw<NullReferenceException>();
         }
     }
@@ -469,9 +535,12 @@ public class ProblemServiceTests
         var testProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "Test problem",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = "image"
         };
@@ -493,11 +562,14 @@ public class ProblemServiceTests
         var testProblem = new Problem
         {
             ProblemId = id,
-            ProblemName = "test problem",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
-            Image = "Image"
+            Image = "image"
         };
         var result = problemService.DeleteProblem(testProblem);
         result.Should().BeFalse();
@@ -518,9 +590,12 @@ public class ProblemServiceTests
         var testProblem = new Problem
         {
             ProblemId = 1,
-            ProblemName = "test problem",
+            ProblemName = "test",
             Status = "Staus",
-            Location = "Location",
+            Location = new Location{
+                Latitude = 55.8,
+                Longitude = 8.42
+            },
             Description = "Description",
             Image = "image"
         };

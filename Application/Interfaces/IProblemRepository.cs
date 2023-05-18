@@ -5,10 +5,10 @@ namespace Application.Interfaces;
 
 public interface IProblemRepository
 {
-    public List<Problem> GetAllProblems();
-    public Problem GetById(int ProblemId);
-    public Problem AddProblem(Problem addProblemRequest);
-    public Problem? EditProblem(Problem problem);
+    public List<ProblemDB> GetAllProblems();
+    public ProblemDB GetById(int ProblemId);
+    public ProblemDB AddProblem(ProblemDB addProblemRequest);
+    public ProblemDB? EditProblem(ProblemDB problem);
     public int DeleteProblem(int ProblemId);
  
 }

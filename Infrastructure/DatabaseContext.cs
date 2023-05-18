@@ -16,11 +16,12 @@ public class DatabaseContext : DbContext
             .HasIndex(u => u.email)
             .IsUnique();
             
-        modelBuilder.Entity<Problem>(entity =>
+        modelBuilder.Entity<ProblemDB>(entity =>
             {
                 entity.HasKey(e => e.ProblemId);
                 entity.Property(e => e.ProblemName).IsRequired();
-                entity.Property(e => e.Location).IsRequired();
+                entity.Property(e => e.Longitude).IsRequired();
+                entity.Property(e => e.Latitude).IsRequired();
                 entity.Property(e => e.Status).IsRequired();
                 entity.Property(e => e.Description).IsRequired();
                 entity.Property(e => e.Image).IsRequired();
@@ -28,5 +29,5 @@ public class DatabaseContext : DbContext
     }
 
     public DbSet<User> UserTable { get; set; }
-    public DbSet<Problem> ProblemTable { get; set; }
+    public DbSet<ProblemDB> ProblemTable { get; set; }
 }

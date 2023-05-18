@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("WebAPI/[controller]")]
+[Route("api/[controller]")]
 public class ProblemController : ControllerBase
 {
     private readonly IProblemService _problemService;
