@@ -21,7 +21,7 @@ public class ProblemService : IProblemService
     }
     public ProblemResponse GetAllProblems()
     {
-        var problemList = ProblemDB.ConvertToProblems(_problemRepository.GetAllProblems());
+        var problemList = _problemRepository.GetAllProblems();
 
         if (problemList == null)
         {
@@ -35,7 +35,7 @@ public class ProblemService : IProblemService
   
     public Problem GetById(int ProblemId)
     {
-        return ProblemDB.ConvertToProblem(_problemRepository.GetById(ProblemId));
+        return _problemRepository.GetById(ProblemId);
     }
     public Problem AddProblem(AddProblemRequest addProblemRequest)
     {
@@ -53,20 +53,20 @@ public class ProblemService : IProblemService
             throw new ValidationException(validation.ToString());
         }
 
-        ProblemDB returnProblem = _problemRepository.AddProblem(Problem.ConvertToProblemDB(problem));
+        Problem returnProblem = _problemRepository.AddProblem(problem);
 
         if (returnProblem == null)
         {
             throw new NullReferenceException("Item does not exist in database.");
         }
 
-        var returnValidation = _problemValidator.Validate(ProblemDB.ConvertToProblem(returnProblem));
+        var returnValidation = _problemValidator.Validate(returnProblem);
         if (!returnValidation.IsValid)
         {
             throw new ValidationException(returnValidation.ToString());
         }
 
-        return ProblemDB.ConvertToProblem(returnProblem);
+        return returnProblem;
     }
 
     public Problem EditProblem(Problem problem)
@@ -83,7 +83,7 @@ public class ProblemService : IProblemService
             throw new ValidationException(validation.ToString());
         }
 
-        ProblemDB? returnProblem = _problemRepository.EditProblem(Problem.ConvertToProblemDB(problem));
+        Problem? returnProblem = _problemRepository.EditProblem(problem);
 
         if (returnProblem == null)
         {
@@ -95,13 +95,13 @@ public class ProblemService : IProblemService
             throw new ArgumentException("No change was made to the ProblemName.");
         }
 
-        var validationReturn = _problemValidator.Validate(ProblemDB.ConvertToProblem(returnProblem));
+        var validationReturn = _problemValidator.Validate(returnProblem);
         if (!validationReturn.IsValid)
         {
             throw new ValidationException(validationReturn.ToString());
         }
 
-        return ProblemDB.ConvertToProblem(returnProblem);
+        return returnProblem;
     }
 
     public bool DeleteProblem(Problem problem)

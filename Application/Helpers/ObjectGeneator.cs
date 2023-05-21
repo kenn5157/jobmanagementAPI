@@ -13,7 +13,8 @@ public class ObjectGeneator
         {
             ProblemId = 0,
             ProblemName = problem.ProblemName,
-            Location = problem.Location,
+            Longitude = problem.Longitude,
+            Latitude = problem.Latitude,
             Status = problem.Status,
             Description = problem.Description,
             Image = problem.Image

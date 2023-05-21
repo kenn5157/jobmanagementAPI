@@ -3,7 +3,8 @@
 public class AddProblemRequest
 {
     public string ProblemName { get; set; }
-    public Location Location { get; set; }
+    public double Longitude { get; set; }
+    public double Latitude { get; set; }
     public string Status { get; set; }
     public string Description { get; set; }
     
