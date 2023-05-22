@@ -9,10 +9,10 @@ namespace WebAPI.Controllers;
 public class ProblemController : ControllerBase
 {
     private readonly IProblemService _problemService;
-
+    private readonly ILogger<LogController> _logger;
     public ProblemController(IProblemService problemService){
         _problemService = problemService ?? throw new NullReferenceException("Faction Service can't be null");
-        
+    
     }
 
     [HttpGet]
@@ -44,5 +44,25 @@ public class ProblemController : ControllerBase
     public Boolean DeleteProblem(Problem problem)
     {
         return _problemService.DeleteProblem(problem);
+    }
+    
+    [HttpGet]
+    public IActionResult Get()
+    {
+        try
+        {
+            var rng = new Random();
+            if (rng.Next(0, 5) < 2)
+            {
+                throw new Exception("oops what happend");
+            }
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,"Something bad happened");
+            return new StatusCodeResult(500);
+        }
+      
     }
 }

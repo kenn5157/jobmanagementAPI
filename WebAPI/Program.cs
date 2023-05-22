@@ -18,13 +18,15 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.Elasticsearch(new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri(constants.getSerilog()))
 {
+    IndexFormat = $"{builder.Configuration}-logs-{builder.Environment.EnvironmentName?.ToLower().Replace(".","-")}-{DateTime.UtcNow:yyyy-MM}",
     AutoRegisterTemplate = true,
     NumberOfShards = 2,
     NumberOfReplicas = 1
-    
-})
-    
-.CreateLogger();
+        })
+    .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
+    .ReadFrom.Configuration(builder.Configuration)
+
+        .CreateLogger();
 
 builder.Host.ConfigureLogging((hostingContext, logging) =>
 {
@@ -64,6 +66,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();

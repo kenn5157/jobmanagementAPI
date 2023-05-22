@@ -14,23 +14,4 @@ public class LogController: ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    public IActionResult Get()
-    {
-        try
-        {
-            var rng = new Random();
-            if (rng.Next(0, 5) < 2)
-            {
-                throw new Exception("oops what happend");
-            }
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex,"Something bad happened");
-            return new StatusCodeResult(500);
-        }
-      
-    }
 }
