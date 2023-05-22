@@ -1,4 +1,5 @@
-﻿using Application.DTOs;
+﻿using System.Net;
+using Application.DTOs;
 using Application.Interfaces;
 using Application.Validators;
 using Application.Helpers;
@@ -16,8 +17,8 @@ public class ProblemService : IProblemService
 
     public ProblemService(IProblemRepository problemRepository, ProblemValidator problemValidator)
     {
-        _problemRepository = problemRepository ?? throw new NullReferenceException("ProblemRepository is null");
-        _problemValidator = problemValidator ?? throw new NullReferenceException("ProblemValidator is null");
+        _problemRepository = problemRepository;
+        _problemValidator = problemValidator;
     }
     public ProblemResponse GetAllProblems()
     {
@@ -25,7 +26,9 @@ public class ProblemService : IProblemService
 
         if (problemList == null)
         {
-            throw new NullReferenceException("Unable to fetch problems form database.");
+            HttpStatusCode statusCode = HttpStatusCode.NotFound; 
+            Console.WriteLine("Statuskode: " + (int)500 + " " + statusCode.ToString());
+        
         }
         var response = new ProblemResponse { Problems = problemList };
 
@@ -37,12 +40,15 @@ public class ProblemService : IProblemService
     {
         return ProblemDB.ConvertToProblem(_problemRepository.GetById(ProblemId));
     }
+    
     public Problem AddProblem(AddProblemRequest addProblemRequest)
     {
         if (addProblemRequest == null)
-        {
-            throw new NullReferenceException("AddProblemRequest is null.");
+        { HttpStatusCode statusCode = HttpStatusCode.NotFound; // Definerer statuskoden
+            
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         Problem problem = ObjectGeneator.ProblemRequestToProblem(addProblemRequest);
         
@@ -50,21 +56,28 @@ public class ProblemService : IProblemService
 
         if (!validation.IsValid)
         {
-            throw new ValidationException(validation.ToString());
+            HttpStatusCode statusCode = HttpStatusCode.NotFound;
+
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         ProblemDB returnProblem = _problemRepository.AddProblem(Problem.ConvertToProblemDB(problem));
 
         if (returnProblem == null)
         {
-            throw new NullReferenceException("Item does not exist in database.");
+            HttpStatusCode statusCode = HttpStatusCode.NotFound;
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         var returnValidation = _problemValidator.Validate(ProblemDB.ConvertToProblem(returnProblem));
         if (!returnValidation.IsValid)
         {
-            throw new ValidationException(returnValidation.ToString());
+            HttpStatusCode statusCode = HttpStatusCode.NotFound; 
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         return ProblemDB.ConvertToProblem(returnProblem);
     }
@@ -73,33 +86,43 @@ public class ProblemService : IProblemService
     {
         if (problem == null)
         {
-            throw new NullReferenceException("Problem is null.");
+            HttpStatusCode statusCode = HttpStatusCode.NotFound;
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         var validation = _problemValidator.Validate(problem);
 
         if (!validation.IsValid)
         {
-            throw new ValidationException(validation.ToString());
+            HttpStatusCode statusCode = HttpStatusCode.NotFound;
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         ProblemDB? returnProblem = _problemRepository.EditProblem(Problem.ConvertToProblemDB(problem));
 
         if (returnProblem == null)
         {
-            throw new NullReferenceException("Problem does not exist in database.");
+            HttpStatusCode statusCode = HttpStatusCode.NotFound; 
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
+        
         }
 
         if (problem.ProblemName != returnProblem.ProblemName)
         {
-            throw new ArgumentException("No change was made to the ProblemName.");
+            HttpStatusCode statusCode = HttpStatusCode.NotFound; 
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
+        
         }
 
         var validationReturn = _problemValidator.Validate(ProblemDB.ConvertToProblem(returnProblem));
         if (!validationReturn.IsValid)
         {
-            throw new ValidationException(validationReturn.ToString());
+            HttpStatusCode statusCode = HttpStatusCode.NotFound;
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
+        
 
         return ProblemDB.ConvertToProblem(returnProblem);
     }
@@ -108,7 +131,8 @@ public class ProblemService : IProblemService
     {
         if (problem == null)
         {
-            throw new NullReferenceException("Problem is null.");
+            HttpStatusCode statusCode = HttpStatusCode.NotFound;
+            Console.WriteLine("Statuskode: " + (int)statusCode + " " + statusCode.ToString());
         }
 
         if (problem.ProblemId <= 0)
