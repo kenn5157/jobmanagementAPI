@@ -5,19 +5,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
-using WebAPI.Controllers;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 Constants constants = new Constants();
+string connectionString = constants.getConnectionString();
+string appSecret = constants.getSecret();
 // Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.Elasticsearch(new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri(constants.getSerilog())))
+    .CreateLogger();
+
+builder.Host.ConfigureLogging((hostingContext, logging) =>
+{
+    logging.ClearProviders();
+    logging.AddSerilog(dispose: true);
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string connectionString = constants.getConnectionString();
-string appSecret = constants.getSecret();
+
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySQL(connectionString));
@@ -31,6 +44,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSecret))
     };
 });
+
+
 
 Application.DependencyResolver.DependencyResolver.RegisterApplicationLayer(builder.Services);
 Infrastructure.DependencyResolver.DependencyResolver.RegisterInfrastructureLayer(builder.Services);
@@ -51,3 +66,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+Log.CloseAndFlush();

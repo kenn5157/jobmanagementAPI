@@ -32,6 +32,15 @@ namespace Application.Helpers
             return st;
         }
 
+        public string getSerilog(){
+            string serverIp = this.getEnvironmentString("SQL_SERVER_IP");
+            string serilogPort = "9200";
+            var connectionString = "https://{0}:{1}";
+            string[] data = { serverIp, serilogPort };
+            string st = string.Format(connectionString, data);
+            return st;
+        }
+
         private string getEnvironmentString(string envVariable)
         {
             try

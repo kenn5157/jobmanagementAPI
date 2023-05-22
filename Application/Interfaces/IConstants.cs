@@ -8,5 +8,6 @@ namespace Application.Interfaces
     public interface IConstants
     {
         public string getConnectionString();
+        public string getSerilog();
     }
 }
