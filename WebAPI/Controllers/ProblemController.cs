@@ -10,10 +10,9 @@ public class ProblemController : ControllerBase
 {
     private readonly IProblemService _problemService;
 
-    public ProblemController(IProblemService problemService)
-    {
+    public ProblemController(IProblemService problemService){
         _problemService = problemService ?? throw new NullReferenceException("Faction Service can't be null");
-
+        
     }
 
     [HttpGet]

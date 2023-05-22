@@ -4,6 +4,8 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Serilog;
+using WebAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 Constants constants = new Constants();
