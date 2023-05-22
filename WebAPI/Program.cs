@@ -16,8 +16,15 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.Elasticsearch(new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri(constants.getSerilog())))
-    .CreateLogger();
+    .WriteTo.Elasticsearch(new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri(constants.getSerilog()))
+{
+    AutoRegisterTemplate = true,
+    NumberOfShards = 2,
+    NumberOfReplicas = 1
+    
+})
+    
+.CreateLogger();
 
 builder.Host.ConfigureLogging((hostingContext, logging) =>
 {
