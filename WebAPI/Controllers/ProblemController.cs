@@ -22,6 +22,7 @@ public class ProblemController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("Got all Problems");
            return Ok(_problemService.GetAllProblems());
         }
         catch (Exception ex)

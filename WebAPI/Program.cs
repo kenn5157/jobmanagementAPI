@@ -15,6 +15,7 @@ string appSecret = constants.getSecret();
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
     .WriteTo.Console()
     .WriteTo.Elasticsearch(new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri(constants.getSerilog()))
 {
@@ -25,8 +26,7 @@ Log.Logger = new LoggerConfiguration()
         })
     .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
     .ReadFrom.Configuration(builder.Configuration)
-
-        .CreateLogger();
+    .CreateLogger();
 
 builder.Host.ConfigureLogging((hostingContext, logging) =>
 {

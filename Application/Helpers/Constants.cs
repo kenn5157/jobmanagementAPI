@@ -35,7 +35,7 @@ namespace Application.Helpers
         public string getSerilog(){
             string serverIp = this.getEnvironmentString("SQL_SERVER_IP");
             string serilogPort = "9200";
-            var connectionString = "https://{0}:{1}";
+            var connectionString = "https://localhost:{1}";
             string[] data = { serverIp, serilogPort };
             string st = string.Format(connectionString, data);
             return st;
