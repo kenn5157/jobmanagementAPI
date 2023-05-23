@@ -22,7 +22,7 @@ public class ProblemController : ControllerBase
     {
         try
         {
-      return Ok(_problemService.GetAllProblems());
+           return Ok(_problemService.GetAllProblems());
         }
         catch (Exception ex)
         {
@@ -38,7 +38,9 @@ public class ProblemController : ControllerBase
     {
         try
         {
-            return Ok(_problemService.GetById(ProblemId));
+            var problem = _problemService.GetById(ProblemId);
+            var result = new { Id = ProblemId, Problem = problem };
+            return Ok(result);
         }
         catch (Exception ex)
         {
