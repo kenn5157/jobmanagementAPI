@@ -44,8 +44,8 @@ public class ProblemService : IProblemService
             throw new NullReferenceException("AddProblemRequest is null.");
         }
 
-        Problem problem = ObjectGeneator.ProblemRequestToProblem(addProblemRequest);
         
+        Problem problem = ObjectGeneator.ProblemRequestToProblem(addProblemRequest);
         var validation = _problemValidator.Validate(problem, options => options.IncludeRuleSets("Add"));
 
         if (!validation.IsValid)

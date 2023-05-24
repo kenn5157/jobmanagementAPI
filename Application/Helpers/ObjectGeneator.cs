@@ -8,13 +8,25 @@ public class ObjectGeneator
 {
     public static Problem ProblemRequestToProblem(AddProblemRequest problem)
     {
-     
+        var _longitude = 0.0;
+        var _latitude = 0.0;
+        try
+        {
+            _longitude = Double.Parse(problem.Longitude);
+            _latitude = Double.Parse(problem.Latitude);
+        }
+        catch (System.Exception)
+        {
+            
+            throw new FluentValidation.ValidationException("Location is invalid");
+        }
+
         return new Problem
         {
             ProblemId = 0,
             ProblemName = problem.ProblemName,
-            Longitude = problem.Longitude,
-            Latitude = problem.Latitude,
+            Longitude = _longitude,
+            Latitude = _latitude,
             Status = problem.Status,
             Description = problem.Description,
             Image = problem.Image

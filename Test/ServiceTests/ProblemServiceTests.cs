@@ -32,8 +32,8 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = "Status",
-            Longitude = 0.0,
-            Latitude = 0.0,
+            Longitude = "0.0",
+            Latitude = "0.0",
             Description = "Description",
             Image = "Image"
         };
@@ -101,8 +101,8 @@ public class ProblemServiceTests
         {
             ProblemName = problemName,
             Status = "Status",
-            Longitude = 0.0,
-            Latitude = 0.0,
+            Longitude = "0.0",
+            Latitude = "0.0",
             Description = "Description",
             Image = "Image"
         };
@@ -123,8 +123,8 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = status,
-            Longitude = 0.0,
-            Latitude = 0.0,
+            Longitude = "0.0",
+            Latitude = "0.0",
             Description = "Description",
             Image = "Image"
         };
@@ -133,8 +133,8 @@ public class ProblemServiceTests
     }
     // Test for AddProblem with wrong Location
     [Theory]
-    [InlineData(null, null, "Location cannot be empty.")]
-    public void AddProblem_WithInvaldidLocation_ShouldThorwValidationExceptionWithMessage(double Latitude, double Longitude, string errorMessage)
+    [InlineData("", "", "Location cannot be empty.")]
+    public void AddProblem_WithInvaldidLocation_ShouldThorwValidationExceptionWithMessage(string Latitude, string Longitude, string errorMessage)
     {
         var problemRepository = new Mock<IProblemRepository>();
         var problemValidator = new ProblemValidator();
@@ -165,8 +165,8 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = "Status",
-            Longitude = 0.0,
-            Latitude = 0.0,
+            Longitude = "0.0",
+            Latitude = "0.0",
             Description = Description,
             Image = "Image"
         };
@@ -187,8 +187,8 @@ public class ProblemServiceTests
         {
             ProblemName = "problemName",
             Status = "Status",
-            Longitude = 0.0,
-            Latitude = 0.0,
+            Longitude = "0.0",
+            Latitude = "0.0",
             Description = "Description",
             Image = Image
         };
