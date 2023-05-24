@@ -10,6 +10,11 @@ public class Problem
 
     public string Image { get; set; }
 
+    public override string ToString()
+    {
+        return "Problem: " + ProblemName + " " + Latitude + " " + Longitude + "@\n";
+    }
+
 }
 public class ProblemResponse
 {

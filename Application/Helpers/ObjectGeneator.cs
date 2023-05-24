@@ -12,8 +12,8 @@ public class ObjectGeneator
         var _latitude = 0.0;
         try
         {
-            _longitude = Double.Parse(problem.Longitude);
-            _latitude = Double.Parse(problem.Latitude);
+            _longitude = Double.Parse(problem.Longitude.Replace(".", ","));
+            _latitude = Double.Parse(problem.Latitude.Replace(".",","));
         }
         catch (System.Exception)
         {

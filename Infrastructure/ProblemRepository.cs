@@ -23,6 +23,7 @@ public class ProblemRepository: IProblemRepository
 
     public Problem AddProblem(Problem problem)
     {
+        Console.WriteLine("Problem <" + problem.Longitude + "> Problmem End");
         _dbContext.ProblemTable.Add(problem);
         _dbContext.SaveChanges();
         return _dbContext.ProblemTable.Find(problem.ProblemId);
