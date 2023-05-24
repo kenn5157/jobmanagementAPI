@@ -18,7 +18,6 @@ public class ProblemValidator : AbstractValidator<Problem>
             RuleFor(x => x.Status).NotEmpty().WithMessage("Name cannot be empty.");
             RuleFor(x => x.Status).Matches("^[a-zA-Z0-9 ]*$").WithMessage("Status may only contain alphanumeric characters.");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Name cannot be empty.");
-            RuleFor(x => x.Description).Matches("^[a-zA-Z0-9 ]*$").WithMessage("Description may only contain alphanumeric characters.");
             RuleFor(x => x.Image).NotEmpty().WithMessage("Image cannot be empty.");
         });
 
@@ -31,7 +30,6 @@ public class ProblemValidator : AbstractValidator<Problem>
             RuleFor(x => x.Status).NotEmpty().WithMessage("Status cannot be empty.");
             RuleFor(x => x.Status).Matches("^[a-zA-Z0-9 ]*$").WithMessage("status may only contain alphanumeric characters.");
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description cannot be empty.");
-            RuleFor(x => x.Description).Matches("^[a-zA-Z0-9 ]*$").WithMessage("description may only contain alphanumeric characters.");
             RuleFor(x => x.Image).NotEmpty().WithMessage("Image cannot be empty.");
         });
     }
