@@ -1,4 +1,5 @@
-﻿using Application.DTOs;
+﻿using System.Globalization;
+using Application.DTOs;
 using Application.DTOs.User;
 using Domain;
 
@@ -8,12 +9,13 @@ public class ObjectGeneator
 {
     public static Problem ProblemRequestToProblem(AddProblemRequest problem)
     {
+        var culture = new CultureInfo("en-US"); // <-- This is so fucking stupid
         var _longitude = 0.0;
         var _latitude = 0.0;
         try
         {
-            _longitude = Double.Parse(problem.Longitude.Replace(".", ","));
-            _latitude = Double.Parse(problem.Latitude.Replace(".",","));
+            _longitude = Double.Parse(problem.Longitude, culture);
+            _latitude = Double.Parse(problem.Latitude, culture);
         }
         catch (System.Exception)
         {
