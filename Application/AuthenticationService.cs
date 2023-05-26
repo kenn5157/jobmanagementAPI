@@ -64,8 +64,8 @@ public class AuthenticationService : IAuthenticationService
             try
             {
                 _repository.CreateNewUser(user);
-                return "hello world";
-                //return GenerateToken(user);
+                //return "hello world";
+                return GenerateToken(user);
             }
             catch (Exception g)
             {
