@@ -14,6 +14,6 @@ export const options = {
 const BASE_URL = __ENV.BASE_URL || 'http://localhost';
 
 export default function () {
-    const res = http.get(`${BASE_URL}/api/Problem`);
-    sleep(3);
+    const res = http.get(`http://localhost/api/Problem`);
+    sleep(1);
 }
