@@ -11,7 +11,7 @@ export const options = {
     duration: '1m',
 };
 
-const BASE_URL = __ENV.BASE_URL || 'http://localhost:8081';
+const BASE_URL = __ENV.BASE_URL || 'http://localhost';
 
 export default function () {
     const res = http.get(`${BASE_URL}/api/Problem`);
