@@ -8,7 +8,7 @@ export const options = {
         http_req_duration: ['p(95)<200'],
     },
     vus: 10,
-    duration: '1m',
+    duration: '10s',
 };
 
 const BASE_URL = __ENV.BASE_URL || 'http://localhost';
