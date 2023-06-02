@@ -45,7 +45,7 @@ pipeline {
         }
         stage('PerformanceTest'){
             steps {
-                sh "k6 run script.js --vus 5 --duration 10s"
+                sh "k6 run script.js"
                
             }
         }
